@@ -1,6 +1,9 @@
 import 'dart:typed_data';
 
-import 'package:aptos_core/aptos_core.dart';
+import 'package:aptos_core/src/bcs.dart';
+import 'package:aptos_core/src/crypto/ed25519/algorithm.dart';
+import 'package:aptos_core/src/crypto/ed25519/signature.dart';
+import 'package:aptos_core/src/crypto/interface.dart';
 
 class Ed25519PublicKey extends PublicKey<Ed25519Signature> {
   final Uint8List _key;
