@@ -4,6 +4,7 @@ import 'package:aptos_core/src/bcs.dart';
 import 'package:aptos_core/src/crypto/ed25519/algorithm.dart';
 import 'package:aptos_core/src/crypto/ed25519/signature.dart';
 import 'package:aptos_core/src/crypto/interface.dart';
+import 'package:aptos_core/src/model/hex.dart';
 
 class Ed25519PublicKey extends PublicKey<Ed25519Signature> {
   final Uint8List _key;
@@ -17,6 +18,9 @@ class Ed25519PublicKey extends PublicKey<Ed25519Signature> {
 
   @override
   Uint8List toUint8List() => _key;
+
+  @override
+  String toString() => _key.toHexWithPrefix();
 
   @override
   void serializeBCS(Serializer serializer) =>

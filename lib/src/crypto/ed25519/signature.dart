@@ -10,6 +10,9 @@ class Ed25519Signature extends Signature {
   static const BCSSerializer<Ed25519Signature> bcsSerializer =
       _Ed25519SignatureSerializer._();
 
+  @override
+  toUint8List() => _signature;
+
   Ed25519Signature({required Uint8List signature}) : _signature = signature;
 
   @override
