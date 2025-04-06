@@ -10,7 +10,9 @@ abstract class Algorithm<
 > {
   String get name;
 
-  Future<KeyPair<Sig, Public, Private>> generateKeyPair();
+  Future<Private> generatePrivateKey();
+
+  Future<Private> getFromSeed(Uint8List seed);
 }
 
 class KeyPair<

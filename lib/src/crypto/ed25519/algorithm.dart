@@ -11,42 +11,38 @@ class Ed25519Algorithm
     implements
         Algorithm<Ed25519Signature, Ed25519PublicKey, Ed25519PrivateKey> {
   @override
-  Future<KeyPair<Ed25519Signature, Ed25519PublicKey, Ed25519PrivateKey>>
-  generateKeyPair() async {
+  Future<Ed25519PrivateKey> generatePrivateKey() async {
     final algo = crypto_lib.Ed25519();
     final pair = await algo.newKeyPair();
-    return await _extractPairFromLib(pair);
+    return await _extractPrivateKey(pair);
   }
 
-  static Future<KeyPair<Ed25519Signature, Ed25519PublicKey, Ed25519PrivateKey>>
-  _extractPairFromLib(crypto_lib.SimpleKeyPair pair) async {
-    final publicKey = await pair.extractPublicKey();
+  @override
+  Future<Ed25519PrivateKey> getFromSeed(Uint8List seed) => fromSeed(seed);
+
+  static Future<Ed25519PrivateKey> _extractPrivateKey(
+    crypto_lib.SimpleKeyPair pair,
+  ) async {
     final privateKey = await pair.extractPrivateKeyBytes();
-    return KeyPair(
-      publicKey: Ed25519PublicKey(
-        key: Hex.fromUint8Array(Uint8List.fromList(publicKey.bytes)),
-      ),
-      privateKey: Ed25519PrivateKey(
-        key: Hex.fromUint8Array(Uint8List.fromList(privateKey)),
-      ),
+    return Ed25519PrivateKey(
+      key: Hex.fromUint8Array(Uint8List.fromList(privateKey)),
     );
   }
 
-  static Future<KeyPair<Ed25519Signature, Ed25519PublicKey, Ed25519PrivateKey>>
-  fromPrivateKey(Uint8List bytes) async {
+  static Future<Ed25519PrivateKey> fromSeed(Uint8List bytes) async {
     final algo = crypto_lib.Ed25519();
     final pair = await algo.newKeyPairFromSeed(bytes);
-    return await _extractPairFromLib(pair);
+    return await _extractPrivateKey(pair);
   }
 
-  static crypto_lib.SimpleKeyPairData _getLibPair(KeyPair pair) {
-    return crypto_lib.SimpleKeyPairData(
-      pair.privateKey.toUint8List(),
-      publicKey: crypto_lib.SimplePublicKey(
-        pair.publicKey.toUint8List(),
-        type: crypto_lib.KeyPairType.ed25519,
-      ),
-      type: crypto_lib.KeyPairType.ed25519,
+  static Future<Ed25519PublicKey> publicFromPrivateKey(
+    Ed25519PrivateKey privateKey,
+  ) async {
+    final algo = crypto_lib.Ed25519();
+    final pair = await algo.newKeyPairFromSeed(privateKey.toUint8List());
+    final publicKey = await pair.extractPublicKey();
+    return Ed25519PublicKey(
+      key: Hex.fromUint8Array(Uint8List.fromList(publicKey.bytes)),
     );
   }
 
@@ -54,11 +50,16 @@ class Ed25519Algorithm
     Uint8List message,
     Ed25519PrivateKey privateKey,
   ) async {
-    final pair = await Ed25519Algorithm.fromPrivateKey(
-      privateKey.toUint8List(),
-    );
     final algo = crypto_lib.Ed25519();
-    final libKeyPair = _getLibPair(pair);
+    final publicKey = await privateKey.getPublicKey();
+    final libKeyPair = crypto_lib.SimpleKeyPairData(
+      privateKey.toUint8List(),
+      publicKey: crypto_lib.SimplePublicKey(
+        publicKey.toUint8List(),
+        type: crypto_lib.KeyPairType.ed25519,
+      ),
+      type: crypto_lib.KeyPairType.ed25519,
+    );
     final signed = await algo.sign(message, keyPair: libKeyPair);
     return Uint8List.fromList(signed.bytes);
   }
