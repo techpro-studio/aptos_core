@@ -32,7 +32,7 @@ abstract class PrivateKey<
 > {
   Future<Public> getPublicKey();
   Uint8List toUint8List();
-  Future<Sig> signMessage(Hex message);
+  Future<Sig> signMessage(Uint8List message);
 }
 
 class SignatureVerification<Sig extends Signature> {
@@ -54,5 +54,5 @@ abstract class Signature extends BCSSerializable {
   Uint8List toUint8List() => bcsToBytes();
 
   @override
-  String toString() => Hex.fromUint8Array(toUint8List()).toString();
+  String toString() => toUint8List().toHexWithPrefix();
 }

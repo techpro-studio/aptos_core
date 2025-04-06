@@ -15,24 +15,22 @@ class AccountAddress extends BCSSerializable {
     }
   }
 
-  String hexAddress() {
-    return Hex.fromUint8Array(address).hex();
-  }
+  String hexAddress() => address.toHexWithPrefix();
 
   static AccountAddress coreCodeAddress() {
     return AccountAddress.fromHex(_coreCodeAddress);
   }
 
   static AccountAddress fromHex(String addr) {
-    var address = Hex.ensure(addr);
+    var address = addr.decodeHex().toHex();
 
     // If an address hex has odd number of digits, padd the hex string with 0
     // e.g. '1aa' would become '01aa'.
-    if (address.noPrefix().length % 2 != 0) {
-      address = Hex("0${address.noPrefix()}");
+    if (address.length % 2 != 0) {
+      address = "0$address";
     }
 
-    Uint8List addressBytes = address.toUint8List();
+    Uint8List addressBytes = address.decodeHex();
 
     if (addressBytes.length > AccountAddress.length) {
       throw ArgumentError(
@@ -54,15 +52,15 @@ class AccountAddress extends BCSSerializable {
       return false;
     }
 
-    var address = Hex.ensure(addr);
+    var address = addr.decodeHex().toHex();
 
     // If an address hex has odd number of digits, padd the hex string with 0
     // e.g. '1aa' would become '01aa'.
-    if (address.noPrefix().length % 2 != 0) {
-      address = Hex("0${address.noPrefix()}");
+    if (address.length % 2 != 0) {
+      address = "0$address";
     }
 
-    final addressBytes = address.toUint8List();
+    final addressBytes = address.decodeHex();
 
     return addressBytes.length <= AccountAddress.length;
   }

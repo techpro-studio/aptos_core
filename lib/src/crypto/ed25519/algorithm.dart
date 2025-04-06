@@ -4,7 +4,6 @@ import 'package:aptos_core/src/crypto/ed25519/private_key.dart';
 import 'package:aptos_core/src/crypto/ed25519/public_key.dart';
 import 'package:aptos_core/src/crypto/ed25519/signature.dart';
 import 'package:aptos_core/src/crypto/interface.dart';
-import 'package:aptos_core/src/model/hex.dart';
 import 'package:cryptography/cryptography.dart' as crypto_lib;
 
 class Ed25519Algorithm
@@ -24,9 +23,7 @@ class Ed25519Algorithm
     crypto_lib.SimpleKeyPair pair,
   ) async {
     final privateKey = await pair.extractPrivateKeyBytes();
-    return Ed25519PrivateKey(
-      key: Hex.fromUint8Array(Uint8List.fromList(privateKey)),
-    );
+    return Ed25519PrivateKey(key: Uint8List.fromList(privateKey));
   }
 
   static Future<Ed25519PrivateKey> fromSeed(Uint8List bytes) async {
@@ -41,9 +38,7 @@ class Ed25519Algorithm
     final algo = crypto_lib.Ed25519();
     final pair = await algo.newKeyPairFromSeed(privateKey.toUint8List());
     final publicKey = await pair.extractPublicKey();
-    return Ed25519PublicKey(
-      key: Hex.fromUint8Array(Uint8List.fromList(publicKey.bytes)),
-    );
+    return Ed25519PublicKey(key: Uint8List.fromList(publicKey.bytes));
   }
 
   static Future<Uint8List> signMessage(
