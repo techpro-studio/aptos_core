@@ -12,18 +12,7 @@ abstract class Algorithm<
 
   Future<Private> generatePrivateKey();
 
-  Future<Private> getFromSeed(Uint8List seed);
-}
-
-class KeyPair<
-  Sig extends Signature,
-  Public extends PublicKey<Sig>,
-  Private extends PrivateKey<Sig, Public>
-> {
-  final Public publicKey;
-  final Private privateKey;
-
-  KeyPair({required this.publicKey, required this.privateKey});
+  Future<Private> privateKeyFromSeed(Uint8List seed);
 }
 
 abstract class PrivateKey<

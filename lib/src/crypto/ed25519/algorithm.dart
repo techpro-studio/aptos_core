@@ -17,7 +17,8 @@ class Ed25519Algorithm
   }
 
   @override
-  Future<Ed25519PrivateKey> getFromSeed(Uint8List seed) => fromSeed(seed);
+  Future<Ed25519PrivateKey> privateKeyFromSeed(Uint8List seed) =>
+      fromSeed(seed);
 
   static Future<Ed25519PrivateKey> _extractPrivateKey(
     crypto_lib.SimpleKeyPair pair,
