@@ -50,23 +50,32 @@ class Ed25519Algorithm
     );
   }
 
-  static Future<Uint8List> signMessage(Uint8List message, KeyPair pair) async {
+  static Future<Uint8List> signMessage(
+    Uint8List message,
+    Ed25519PrivateKey privateKey,
+  ) async {
+    final pair = await Ed25519Algorithm.fromPrivateKey(
+      privateKey.toUint8List(),
+    );
     final algo = crypto_lib.Ed25519();
     final libKeyPair = _getLibPair(pair);
     final signed = await algo.sign(message, keyPair: libKeyPair);
     return Uint8List.fromList(signed.bytes);
   }
 
-  Future<bool> verifySignature(
+  static Future<bool> verifySignature(
     Uint8List message,
-    Uint8List signature,
-    KeyPair pair,
+    Ed25519Signature signature,
+    Ed25519PublicKey publicKey,
   ) {
     final algo = crypto_lib.Ed25519();
-    final libKeyPair = _getLibPair(pair);
+    final libPublicKey = crypto_lib.SimplePublicKey(
+      publicKey.toUint8List(),
+      type: crypto_lib.KeyPairType.ed25519,
+    );
     final libSignature = crypto_lib.Signature(
-      signature,
-      publicKey: libKeyPair.publicKey,
+      signature.toUint8List().toList(),
+      publicKey: libPublicKey,
     );
     return algo.verify(message, signature: libSignature);
   }

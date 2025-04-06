@@ -34,5 +34,5 @@ class Hex {
     return "0x$trimmed";
   }
 
-  Uint8List toUint8Array() => _bytes;
+  Uint8List toUint8List() => _bytes;
 }

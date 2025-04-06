@@ -32,7 +32,7 @@ class AccountAddress extends BCSSerializable {
       address = Hex("0${address.noPrefix()}");
     }
 
-    Uint8List addressBytes = address.toUint8Array();
+    Uint8List addressBytes = address.toUint8List();
 
     if (addressBytes.length > AccountAddress.length) {
       throw ArgumentError(
@@ -62,7 +62,7 @@ class AccountAddress extends BCSSerializable {
       address = Hex("0${address.noPrefix()}");
     }
 
-    final addressBytes = address.toUint8Array();
+    final addressBytes = address.toUint8List();
 
     return addressBytes.length <= AccountAddress.length;
   }

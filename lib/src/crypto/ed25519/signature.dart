@@ -28,6 +28,6 @@ class _Ed25519SignatureSerializer implements BCSSerializer<Ed25519Signature> {
 
   @override
   void serializeIn(Serializer serializer, Ed25519Signature value) {
-    serializer.serializeBytes(value._signature.toUint8Array());
+    serializer.serializeBytes(value._signature.toUint8List());
   }
 }
