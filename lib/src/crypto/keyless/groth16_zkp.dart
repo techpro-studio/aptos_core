@@ -1,12 +1,17 @@
 import 'dart:typed_data';
 
 import 'package:aptos_core/src/bcs.dart';
+import 'package:aptos_core/src/model/bytes.dart';
 
 class G1Bytes implements BCSSerializable {
   final Uint8List bytes;
   static const size = 32;
 
   G1Bytes._({required this.bytes});
+
+  factory G1Bytes.fromHex(String hex) {
+    return G1Bytes(hex.decodeHex());
+  }
 
   factory G1Bytes(Uint8List bytes) {
     if (bytes.length != size) {
@@ -41,6 +46,10 @@ class G2Bytes implements BCSSerializable {
   static const size = 64;
 
   G2Bytes._({required this.bytes});
+
+  factory G2Bytes.fromHex(String hex) {
+    return G2Bytes(hex.decodeHex());
+  }
 
   factory G2Bytes(Uint8List bytes) {
     if (bytes.length != size) {

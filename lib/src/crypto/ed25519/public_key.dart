@@ -1,12 +1,9 @@
 import 'dart:typed_data';
 
-import 'package:aptos_core/src/bcs.dart';
-import 'package:aptos_core/src/crypto/ed25519/algorithm.dart';
-import 'package:aptos_core/src/crypto/ed25519/signature.dart';
-import 'package:aptos_core/src/crypto/interface.dart';
-import 'package:aptos_core/src/model/hex.dart';
+import 'package:aptos_core/aptos_core.dart';
+import 'package:aptos_core/src/crypto/authentication_key.dart';
 
-class Ed25519PublicKey extends PublicKey<Ed25519Signature> {
+class Ed25519PublicKey extends AccountPublicKey<Ed25519Signature> {
   final Uint8List _key;
 
   static const size = 32;
@@ -36,6 +33,10 @@ class Ed25519PublicKey extends PublicKey<Ed25519Signature> {
       this,
     );
   }
+
+  @override
+  AuthenticationKey get authKey =>
+      AuthenticationKey.fromSchemeAndBytes(SigningScheme.ed25519, _key);
 }
 
 class _Ed25519PublicKeyBCSSerializer

@@ -1,8 +1,10 @@
 import 'package:aptos_core/src/bcs.dart';
 import 'package:aptos_core/src/crypto/any/signature.dart';
+import 'package:aptos_core/src/crypto/authentication_key.dart';
 import 'package:aptos_core/src/crypto/ed25519/public_key.dart';
 import 'package:aptos_core/src/crypto/interface.dart';
 import 'package:aptos_core/src/crypto/keyless/public_key.dart';
+import 'package:aptos_core/src/crypto/signing.dart';
 
 enum AnyPublicKeyVariant {
   keyless._(3),
@@ -17,7 +19,7 @@ enum AnyPublicKeyVariant {
   int get value => _underline;
 }
 
-class AnyPublicKey extends PublicKey<AnySignature> {
+class AnyPublicKey extends AccountPublicKey<AnySignature> {
   final AnyPublicKeyVariant variant;
   final PublicKey key;
 
@@ -25,6 +27,12 @@ class AnyPublicKey extends PublicKey<AnySignature> {
 
   static const BCSSerializer<AnyPublicKey> bcsSerializer =
       _AnyPublicKeySerializer._();
+
+  @override
+  AuthenticationKey get authKey => AuthenticationKey.fromSchemeAndBytes(
+    SigningScheme.singleKey,
+    bcsToBytes(),
+  );
 
   @override
   void serializeBCS(Serializer serializer) =>

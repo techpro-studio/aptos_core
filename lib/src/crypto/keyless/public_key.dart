@@ -1,9 +1,10 @@
 import 'dart:typed_data';
 
-import 'package:aptos_core/src/bcs.dart';
-import 'package:aptos_core/src/crypto/interface.dart';
+import 'package:aptos_core/aptos_core.dart';
+import 'package:aptos_core/src/crypto/authentication_key.dart';
 
-class KeylessPublicKey extends PublicKey implements BCSSerializable {
+class KeylessPublicKey extends AccountPublicKey<KeylessSignature>
+    implements BCSSerializable {
   final String iss;
   final Uint8List idCommitment;
 
@@ -11,6 +12,17 @@ class KeylessPublicKey extends PublicKey implements BCSSerializable {
       _KeylessPublicKeySerializer._();
 
   KeylessPublicKey({required this.iss, required this.idCommitment});
+
+  @override
+  AuthenticationKey get authKey {
+    final serializer = Serializer();
+    serializer.serializeU32AsUleb128(AnyPublicKeyVariant.keyless.value);
+    serializer.serializeFixedBytes(bcsToBytes());
+    return AuthenticationKey.fromSchemeAndBytes(
+      SigningScheme.singleKey,
+      serializer.getBytes(),
+    );
+  }
 
   @override
   void serializeBCS(Serializer serializer) {

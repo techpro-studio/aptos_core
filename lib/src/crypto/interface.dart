@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:aptos_core/src/bcs.dart';
-import 'package:aptos_core/src/model/hex.dart';
+import 'package:aptos_core/src/crypto/authentication_key.dart';
+import 'package:aptos_core/src/model/bytes.dart';
 
 abstract class Algorithm<
   Sig extends Signature,
@@ -44,4 +45,8 @@ abstract class Signature extends BCSSerializable {
 
   @override
   String toString() => toUint8List().toHexWithPrefix();
+}
+
+abstract class AccountPublicKey<Sig extends Signature> extends PublicKey<Sig> {
+  AuthenticationKey get authKey;
 }
