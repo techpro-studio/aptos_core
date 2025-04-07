@@ -14,7 +14,7 @@ class Ed25519PrivateKey extends PrivateKey<Ed25519Signature, Ed25519PublicKey> {
   Ed25519PrivateKey({required Uint8List key}) : _key = key;
 
   @override
-  Future<Ed25519PublicKey> getPublicKey() async =>
+  Ed25519PublicKey getPublicKey() =>
       Ed25519Algorithm.publicFromPrivateKey(this);
 
   @override
@@ -24,8 +24,8 @@ class Ed25519PrivateKey extends PrivateKey<Ed25519Signature, Ed25519PublicKey> {
   String toString() => _key.toHexWithPrefix();
 
   @override
-  Future<Ed25519Signature> signMessage(Uint8List message) async {
-    final bytes = await Ed25519Algorithm.signMessage(message, this);
+  Ed25519Signature signMessage(Uint8List message) {
+    final bytes = Ed25519Algorithm.signMessage(message, this);
     return Ed25519Signature(signature: bytes);
   }
 }

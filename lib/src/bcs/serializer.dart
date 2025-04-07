@@ -49,11 +49,7 @@ class Serializer {
   }
 
   void serializeU8(int value) {
-    checkNumberRange(
-      BigInt.from(value),
-      BigInt.zero,
-      BigInt.from(MAX_U8_NUMBER),
-    );
+    checkNumberRange(BigInt.from(value), BigInt.zero, BigInt.from(maxU8Number));
 
     serialize(Uint8List.fromList([value]));
   }
@@ -62,7 +58,7 @@ class Serializer {
     checkNumberRange(
       BigInt.from(value),
       BigInt.zero,
-      BigInt.from(MAX_U16_NUMBER),
+      BigInt.from(maxU16Number),
     );
 
     int bytesLength = 2;
@@ -76,7 +72,7 @@ class Serializer {
     checkNumberRange(
       BigInt.from(value),
       BigInt.zero,
-      BigInt.from(MAX_U32_NUMBER),
+      BigInt.from(maxU32Number),
     );
 
     int bytesLength = 4;
@@ -87,9 +83,9 @@ class Serializer {
   }
 
   void serializeU64(BigInt value) {
-    checkNumberRange(value, BigInt.zero, MAX_U64_BIG_INT);
+    checkNumberRange(value, BigInt.zero, maxU64BigInt);
 
-    final low = value & BigInt.from(MAX_U32_NUMBER);
+    final low = value & BigInt.from(maxU32Number);
     final high = value >> 32;
 
     // write little endian number
@@ -98,9 +94,9 @@ class Serializer {
   }
 
   void serializeU128(BigInt value) {
-    checkNumberRange(value, BigInt.zero, MAX_U128_BIG_INT);
+    checkNumberRange(value, BigInt.zero, maxU128BigInt);
 
-    final low = value & MAX_U64_BIG_INT;
+    final low = value & maxU64BigInt;
     final high = value >> 64;
 
     // write little endian number
@@ -109,9 +105,9 @@ class Serializer {
   }
 
   void serializeU256(BigInt value) {
-    checkNumberRange(value, BigInt.zero, MAX_U256_BIG_INT);
+    checkNumberRange(value, BigInt.zero, maxU256BigInt);
 
-    final low = value & MAX_U128_BIG_INT;
+    final low = value & maxU128BigInt;
     final high = value >> 128;
 
     // write little endian number
@@ -120,11 +116,7 @@ class Serializer {
   }
 
   void serializeU32AsUleb128(int val) {
-    checkNumberRange(
-      BigInt.from(val),
-      BigInt.zero,
-      BigInt.from(MAX_U32_NUMBER),
-    );
+    checkNumberRange(BigInt.from(val), BigInt.zero, BigInt.from(maxU32Number));
 
     var value = val;
     var valueArray = <int>[];

@@ -1,17 +1,39 @@
 import 'dart:typed_data';
 
 import 'package:aptos_core/aptos_core.dart';
-import 'package:aptos_core/src/crypto/authentication_key.dart';
+
+import 'const.dart' as c;
 
 class KeylessPublicKey extends AccountPublicKey<KeylessSignature>
     implements BCSSerializable {
   final String iss;
   final Uint8List idCommitment;
 
+  static const idCommitmentLength = 32;
+
   static const BCSSerializer<KeylessPublicKey> bcsSerializer =
       _KeylessPublicKeySerializer._();
 
   KeylessPublicKey({required this.iss, required this.idCommitment});
+
+  factory KeylessPublicKey.fromJWTAndPepper(
+    String jwt,
+    Uint8List pepper, {
+    String uidKey = 'sub',
+  }) {
+    final jwtBody = jwt.getJWTBody(uidKey: uidKey);
+
+    final fields = [
+      pepper.toBigIntLE(),
+      hashStringWithLen(jwtBody.aud, c.maxAudValBytes),
+      hashStringWithLen(jwtBody.uidVal, c.maxUidValBytes),
+      hashStringWithLen(uidKey, c.maxUidKeyBytes),
+    ];
+    final hash = poseidonHash(fields);
+    final commitment = hash.toBytesLE(idCommitmentLength);
+
+    return KeylessPublicKey(iss: jwtBody.iss, idCommitment: commitment);
+  }
 
   @override
   AuthenticationKey get authKey {

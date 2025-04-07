@@ -11,18 +11,18 @@ abstract class Algorithm<
 > {
   String get name;
 
-  Future<Private> generatePrivateKey();
+  Private generatePrivateKey();
 
-  Future<Private> privateKeyFromSeed(Uint8List seed);
+  Private privateKeyFromSeed(Uint8List seed);
 }
 
 abstract class PrivateKey<
   Sig extends Signature,
   Public extends PublicKey<Sig>
 > {
-  Future<Public> getPublicKey();
+  Public getPublicKey();
   Uint8List toUint8List();
-  Future<Sig> signMessage(Uint8List message);
+  Sig signMessage(Uint8List message);
 }
 
 class SignatureVerification<Sig extends Signature> {

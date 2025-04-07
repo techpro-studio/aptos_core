@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:aptos_core/aptos_core.dart';
-import 'package:aptos_core/src/crypto/authentication_key.dart';
 
 class Ed25519PublicKey extends AccountPublicKey<Ed25519Signature> {
   final Uint8List _key;

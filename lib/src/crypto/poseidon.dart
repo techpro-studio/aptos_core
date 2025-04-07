@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:aptos_core/aptos_core.dart';
 import 'package:poseidon/poseidon.dart';
 
 const poseidonNumToHashFN = [
@@ -36,4 +40,27 @@ BigInt poseidonHash(List<BigInt> inputs) {
   } catch (e) {
     throw Exception('poseidonHash error: $e');
   }
+}
+
+BigInt hashStringWithLen(String str, int maxSize) =>
+    hashBytesWithLen(utf8.encode(str), maxSize);
+
+BigInt hashBytesWithLen(Uint8List bytes, int maxSize) {
+  final packed = padAndPackBytesWithLen(bytes, maxSize);
+  return poseidonHash(packed);
+}
+
+List<BigInt> padAndPackBytesWithLen(Uint8List bytes, int maxSize) {
+  final padAndPacked = padAndPackBytes(bytes, maxSize);
+  padAndPacked.add(BigInt.from(bytes.length));
+  return padAndPacked;
+}
+
+List<BigInt> padAndPackBytes(Uint8List bytes, int maxSize) {
+  final padded = bytes.paddedWithZero(maxSize);
+  return packBytes(padded);
+}
+
+List<BigInt> packBytes(Uint8List bytes) {
+  return bytes.getChunked(31).map((e) => e.toBigIntLE()).toList();
 }

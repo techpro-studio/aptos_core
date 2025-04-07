@@ -93,7 +93,7 @@ class Deserializer {
     var value = BigInt.zero;
     var shift = 0;
 
-    while (value < BigInt.from(MAX_U32_NUMBER)) {
+    while (value < BigInt.from(maxU32Number)) {
       int byte = deserializeU8();
       value |= BigInt.from(byte & 0x7f) << shift;
 
@@ -103,7 +103,7 @@ class Deserializer {
       shift += 7;
     }
 
-    if (value > BigInt.from(MAX_U32_NUMBER)) {
+    if (value > BigInt.from(maxU32Number)) {
       throw ArgumentError(
         "Overflow while parsing uleb128-encoded uint32 value",
       );

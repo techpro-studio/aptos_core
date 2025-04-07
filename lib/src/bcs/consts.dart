@@ -1,8 +1,8 @@
 import 'dart:math';
 
-final MAX_U8_NUMBER = pow(2, 8) - 1;
-final MAX_U16_NUMBER = pow(2, 16) - 1;
-final MAX_U32_NUMBER = pow(2, 32) - 1;
-final MAX_U64_BIG_INT = BigInt.from(2).pow(64) - BigInt.one;
-final MAX_U128_BIG_INT = BigInt.from(2).pow(128) - BigInt.one;
-final MAX_U256_BIG_INT = BigInt.from(2).pow(256) - BigInt.one;
+final maxU8Number = pow(2, 8) - 1;
+final maxU16Number = pow(2, 16) - 1;
+final maxU32Number = pow(2, 32) - 1;
+final maxU64BigInt = BigInt.from(2).pow(64) - BigInt.one;
+final maxU128BigInt = BigInt.from(2).pow(128) - BigInt.one;
+final maxU256BigInt = BigInt.from(2).pow(256) - BigInt.one;
