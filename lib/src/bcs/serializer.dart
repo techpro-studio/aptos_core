@@ -39,6 +39,15 @@ class Serializer {
     serialize(value);
   }
 
+  void serializeOptionalFixedBytes(Uint8List? value) {
+    if (value != null) {
+      serializeBool(true);
+      serializeFixedBytes(value);
+    } else {
+      serializeBool(false);
+    }
+  }
+
   void serializeFixedBytes(Uint8List value) {
     serialize(value);
   }

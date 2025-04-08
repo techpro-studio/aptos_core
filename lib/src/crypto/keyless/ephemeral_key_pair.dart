@@ -16,13 +16,12 @@ class EphemeralKeyPair extends BCSSerializable {
   static const blinderLength = 31;
 
   EphemeralKeyPair._({
-    required EphemeralPublicKey publicKey,
+    required this.publicKey,
     required PrivateKey privateKey,
     required this.expiryDateSecs,
     required this.blinder,
     required this.nonce,
-  }) : _privateKey = privateKey,
-       publicKey = publicKey;
+  }) : _privateKey = privateKey;
 
   factory EphemeralKeyPair.buildFrom(
     Ed25519PrivateKey privateKey, {

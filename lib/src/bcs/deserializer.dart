@@ -36,6 +36,14 @@ class Deserializer {
     return null;
   }
 
+  Uint8List? deserializeOptionalFixedBytes(int length) {
+    final flag = deserializeBool();
+    if (flag) {
+      return deserializeFixedBytes(length);
+    }
+    return null;
+  }
+
   Uint8List deserializeBytes() {
     int len = deserializeUleb128AsU32();
     return read(len);

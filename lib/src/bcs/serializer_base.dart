@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:aptos_core/src/bcs/deserializer.dart';
 import 'package:aptos_core/src/bcs/serializer.dart';
+import 'package:aptos_core/src/model/bytes.dart';
 
 abstract class BCSSerializable {
   void serializeBCS(Serializer serializer);
@@ -13,6 +14,8 @@ extension SerializableExtension on BCSSerializable {
     serializeBCS(serializer);
     return serializer.getBytes();
   }
+
+  String bcsToHex() => bcsToBytes().toHex();
 }
 
 abstract class BCSSerializer<T> {

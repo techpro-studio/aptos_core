@@ -1,8 +1,6 @@
-import 'package:aptos_core/src/bcs.dart';
-import 'package:aptos_core/src/crypto/ephemeral/signature.dart';
-import 'package:aptos_core/src/crypto/keyless/proof.dart';
+import 'package:aptos_core/aptos_core.dart';
 
-class ZeroKnowledgeSignature {
+class ZeroKnowledgeSignature extends Signature {
   final ZkProof proof;
   final BigInt expHorizonSecs;
   final String? extraField;
@@ -19,6 +17,10 @@ class ZeroKnowledgeSignature {
 
   static const BCSSerializer<ZeroKnowledgeSignature> bcsSerializer =
       _ZeroKnowledgeSignatureSerializer._();
+
+  @override
+  void serializeBCS(Serializer serializer) =>
+      bcsSerializer.serializeIn(serializer, this);
 }
 
 class _ZeroKnowledgeSignatureSerializer
