@@ -2,9 +2,8 @@ import 'dart:typed_data';
 
 import 'package:aptos_core/aptos_core.dart';
 
-class EphemeralKeyPair extends BCSSerializable
-    implements PrivateKey<EphemeralSignature, EphemeralPublicKey> {
-  final PrivateKey privateKey;
+class EphemeralKeyPair extends BCSSerializable {
+  final PrivateKey _privateKey;
   final EphemeralPublicKey publicKey;
   final BigInt expiryDateSecs;
   final Uint8List blinder;
@@ -17,12 +16,13 @@ class EphemeralKeyPair extends BCSSerializable
   static const blinderLength = 31;
 
   EphemeralKeyPair._({
-    required this.publicKey,
-    required this.privateKey,
+    required EphemeralPublicKey publicKey,
+    required PrivateKey privateKey,
     required this.expiryDateSecs,
     required this.blinder,
     required this.nonce,
-  });
+  }) : _privateKey = privateKey,
+       publicKey = publicKey;
 
   factory EphemeralKeyPair.buildFrom(
     Ed25519PrivateKey privateKey, {
@@ -47,11 +47,9 @@ class EphemeralKeyPair extends BCSSerializable
       publicKey,
     );
     final fields = padAndPackBytesWithLen(publicKeySerialized, 93);
-    fields.add(BigInt.from(publicKeySerialized.length));
     fields.add(expire);
     fields.add(newBlinder.toBigIntLE());
     final hash = poseidonHash(fields);
-
     final nonce = hash.toString();
     return EphemeralKeyPair._(
       publicKey: publicKey,
@@ -69,19 +67,12 @@ class EphemeralKeyPair extends BCSSerializable
   void serializeBCS(Serializer serializer) =>
       bcsSerializer.serializeIn(serializer, this);
 
-  @override
-  EphemeralPublicKey getPublicKey() => publicKey;
-
-  @override
   EphemeralSignature signMessage(Uint8List message) {
     return EphemeralSignature(
       variant: EphemeralSignatureVariant.ed25519,
-      signature: privateKey.signMessage(message),
+      signature: _privateKey.signMessage(message),
     );
   }
-
-  @override
-  Uint8List toUint8List() => privateKey.toUint8List();
 }
 
 class _EphemeralKeyPairBCSSerializer
@@ -110,7 +101,7 @@ class _EphemeralKeyPairBCSSerializer
   @override
   void serializeIn(Serializer serializer, EphemeralKeyPair value) {
     serializer.serializeU32AsUleb128(value.publicKey.variant.value);
-    serializer.serializeBytes(value.privateKey.toUint8List());
+    serializer.serializeBytes(value._privateKey.toUint8List());
     serializer.serializeU64(value.expiryDateSecs);
     serializer.serializeFixedBytes(value.blinder);
   }
