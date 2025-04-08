@@ -2,7 +2,8 @@ import 'dart:typed_data';
 
 import 'package:aptos_core/aptos_core.dart';
 
-class EphemeralKeyPair extends BCSSerializable {
+class EphemeralKeyPair extends BCSSerializable
+    implements PrivateKey<EphemeralSignature, EphemeralPublicKey> {
   final PrivateKey privateKey;
   final EphemeralPublicKey publicKey;
   final BigInt expiryDateSecs;
@@ -67,6 +68,20 @@ class EphemeralKeyPair extends BCSSerializable {
   @override
   void serializeBCS(Serializer serializer) =>
       bcsSerializer.serializeIn(serializer, this);
+
+  @override
+  EphemeralPublicKey getPublicKey() => publicKey;
+
+  @override
+  EphemeralSignature signMessage(Uint8List message) {
+    return EphemeralSignature(
+      variant: EphemeralSignatureVariant.ed25519,
+      signature: privateKey.signMessage(message),
+    );
+  }
+
+  @override
+  Uint8List toUint8List() => privateKey.toUint8List();
 }
 
 class _EphemeralKeyPairBCSSerializer
