@@ -1,4 +1,4 @@
-import 'package:aptos_core/src/bcs.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 import 'package:aptos_core/src/crypto/any/signature.dart';
 import 'package:aptos_core/src/crypto/authentication_key.dart';
 import 'package:aptos_core/src/crypto/ed25519/public_key.dart';

@@ -1,6 +1,6 @@
 name: aptos_core
 description: "Aptos Core Package. Package contains base models to interact with Aptos blockchain. Now package focused on Keyless Accounts"
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/techpro-studio/aptos_core
 repository: https://github.com/techpro-studio/aptos_core
 issue_tracker: https://github.com/techpro-studio/aptos_core/issues
@@ -19,6 +19,7 @@ dependencies:
   hex: ^0.2.0
   poseidon: ^0.0.1
   sha3: ^0.2.0
+  bcs_serde: ^0.0.1
 
 dev_dependencies:
   flutter_test:

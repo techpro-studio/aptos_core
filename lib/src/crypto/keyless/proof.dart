@@ -1,4 +1,4 @@
-import 'package:aptos_core/src/bcs.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 import 'package:aptos_core/src/crypto/keyless/groth16_zkp.dart';
 
 enum ZkpVariant {

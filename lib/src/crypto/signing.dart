@@ -1,9 +1,10 @@
-import 'package:aptos_core/src/bcs.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 import 'package:aptos_core/src/crypto/any/public_key.dart';
 import 'package:aptos_core/src/crypto/any/signature.dart';
 import 'package:aptos_core/src/crypto/ed25519/public_key.dart';
 import 'package:aptos_core/src/crypto/ed25519/signature.dart';
 import 'package:aptos_core/src/crypto/interface.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 
 enum SigningScheme {
   ed25519._(0),

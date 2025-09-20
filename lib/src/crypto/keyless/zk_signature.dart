@@ -1,4 +1,5 @@
 import 'package:aptos_core/aptos_core.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 
 class ZeroKnowledgeSignature extends Signature {
   final ZkProof proof;

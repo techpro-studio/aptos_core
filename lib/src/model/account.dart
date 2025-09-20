@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:aptos_core/aptos_core.dart';
 import 'package:aptos_core/src/crypto/hd_key.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 import 'package:bip39_mnemonic/bip39_mnemonic.dart' as bip39;
 
 class SingleKeyAccount implements BCSSerializable {

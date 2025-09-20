@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:aptos_core/src/bcs.dart';
 import 'package:aptos_core/src/model.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 
 class AccountAddress extends BCSSerializable {
   static const int length = 32;

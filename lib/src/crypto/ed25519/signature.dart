@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:aptos_core/src/bcs.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 import 'package:aptos_core/src/crypto/interface.dart';
 
 class Ed25519Signature extends Signature {

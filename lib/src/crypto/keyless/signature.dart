@@ -1,4 +1,4 @@
-import 'package:aptos_core/src/bcs.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 import 'package:aptos_core/src/crypto/ephemeral.dart';
 import 'package:aptos_core/src/crypto/interface.dart';
 import 'package:aptos_core/src/crypto/keyless/ephemeral_certificate.dart';

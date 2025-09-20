@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:aptos_core/aptos_core.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 
 class EphemeralKeyPair extends BCSSerializable {
   final PrivateKey _privateKey;

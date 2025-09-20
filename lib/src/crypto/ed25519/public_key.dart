@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:aptos_core/aptos_core.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 
 class Ed25519PublicKey extends AccountPublicKey<Ed25519Signature> {
   final Uint8List _key;

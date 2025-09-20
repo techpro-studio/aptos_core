@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:aptos_core/aptos_core.dart';
+import 'package:bcs_serde/bcs_serde.dart';
 
 class AuthenticationKey implements BCSSerializable {
   static const int size = 32;
