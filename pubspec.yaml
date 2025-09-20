@@ -20,6 +20,7 @@ dependencies:
   poseidon: ^0.0.1
   sha3: ^0.2.0
   bcs_serde: ^0.0.1
+  crypto: ^3.0.6
 
 dev_dependencies:
   flutter_test:
